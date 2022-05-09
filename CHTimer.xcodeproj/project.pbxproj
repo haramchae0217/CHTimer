@@ -9,21 +9,25 @@
 /* Begin PBXBuildFile section */
 		830E3ED4282817C60077169A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830E3ED3282817C60077169A /* AppDelegate.swift */; };
 		830E3ED6282817C60077169A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830E3ED5282817C60077169A /* SceneDelegate.swift */; };
-		830E3ED8282817C60077169A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830E3ED7282817C60077169A /* ViewController.swift */; };
+		830E3ED8282817C60077169A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830E3ED7282817C60077169A /* MainViewController.swift */; };
 		830E3EDB282817C60077169A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 830E3ED9282817C60077169A /* Main.storyboard */; };
 		830E3EDD282817C70077169A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 830E3EDC282817C70077169A /* Assets.xcassets */; };
 		830E3EE0282817C70077169A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 830E3EDE282817C70077169A /* LaunchScreen.storyboard */; };
+		8390C30928294B6500E8D57A /* TimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8390C30828294B6500E8D57A /* TimerViewController.swift */; };
+		8390C30B28294B7600E8D57A /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8390C30A28294B7600E8D57A /* MemoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		830E3ED0282817C60077169A /* CHTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CHTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		830E3ED3282817C60077169A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		830E3ED5282817C60077169A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		830E3ED7282817C60077169A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		830E3ED7282817C60077169A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		830E3EDA282817C60077169A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		830E3EDC282817C70077169A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		830E3EDF282817C70077169A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		830E3EE1282817C70077169A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8390C30828294B6500E8D57A /* TimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewController.swift; sourceTree = "<group>"; };
+		8390C30A28294B7600E8D57A /* MemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +60,41 @@
 		830E3ED2282817C60077169A /* CHTimer */ = {
 			isa = PBXGroup;
 			children = (
-				830E3ED3282817C60077169A /* AppDelegate.swift */,
-				830E3ED5282817C60077169A /* SceneDelegate.swift */,
-				830E3ED7282817C60077169A /* ViewController.swift */,
-				830E3ED9282817C60077169A /* Main.storyboard */,
-				830E3EDC282817C70077169A /* Assets.xcassets */,
-				830E3EDE282817C70077169A /* LaunchScreen.storyboard */,
+				832EA22B2829433500B7B663 /* Resource */,
+				832EA2292829432600B7B663 /* Source */,
 				830E3EE1282817C70077169A /* Info.plist */,
 			);
 			path = CHTimer;
+			sourceTree = "<group>";
+		};
+		832EA2292829432600B7B663 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				8390C30C28294BEF00E8D57A /* VC */,
+				830E3ED3282817C60077169A /* AppDelegate.swift */,
+				830E3ED5282817C60077169A /* SceneDelegate.swift */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		832EA22B2829433500B7B663 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				830E3ED9282817C60077169A /* Main.storyboard */,
+				830E3EDC282817C70077169A /* Assets.xcassets */,
+				830E3EDE282817C70077169A /* LaunchScreen.storyboard */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		8390C30C28294BEF00E8D57A /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				830E3ED7282817C60077169A /* MainViewController.swift */,
+				8390C30828294B6500E8D57A /* TimerViewController.swift */,
+				8390C30A28294B7600E8D57A /* MemoViewController.swift */,
+			);
+			path = VC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,7 +168,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				830E3ED8282817C60077169A /* ViewController.swift in Sources */,
+				8390C30928294B6500E8D57A /* TimerViewController.swift in Sources */,
+				830E3ED8282817C60077169A /* MainViewController.swift in Sources */,
+				8390C30B28294B7600E8D57A /* MemoViewController.swift in Sources */,
 				830E3ED4282817C60077169A /* AppDelegate.swift in Sources */,
 				830E3ED6282817C60077169A /* SceneDelegate.swift in Sources */,
 			);
