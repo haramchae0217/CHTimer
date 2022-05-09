@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="countDownTimer" minuteInterval="1" style="wheels" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hQd-du-JML">
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="countDownTimer" countDownDuration="60" minuteInterval="1" style="wheels" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hQd-du-JML">
                                 <rect key="frame" x="20" y="345" width="374" height="216"/>
                             </datePicker>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aYC-la-dAh">
@@ -54,7 +54,7 @@
         <!--Timer View Controller-->
         <scene sceneID="4Pv-1i-J1E">
             <objects>
-                <viewController storyboardIdentifier="TimerVC" id="C4F-5D-9mw" customClass="TimerViewController" customModule="CHTimer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TimerVC" modalPresentationStyle="fullScreen" id="C4F-5D-9mw" customClass="TimerViewController" customModule="CHTimer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fv9-5W-N8l">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -87,6 +87,9 @@
                                         <buttonConfiguration key="configuration" style="plain" title="일시정지">
                                             <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="replayButton:" destination="C4F-5D-9mw" eventType="touchUpInside" id="OYK-fU-Qko"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GlD-tf-BvG">
                                         <rect key="frame" x="131.5" y="0.0" width="111" height="33.5"/>
@@ -96,6 +99,9 @@
                                         <buttonConfiguration key="configuration" style="plain" title="기록">
                                             <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="lapButton:" destination="C4F-5D-9mw" eventType="touchUpInside" id="PJv-Wh-3Eh"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mmP-jK-hzg">
                                         <rect key="frame" x="262.5" y="0.0" width="111.5" height="33.5"/>
@@ -105,6 +111,9 @@
                                         <buttonConfiguration key="configuration" style="plain" title="취소">
                                             <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="cancelButton:" destination="C4F-5D-9mw" eventType="touchUpInside" id="l97-2r-DNu"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -112,7 +121,7 @@
                                 <rect key="frame" x="0.0" y="395.5" width="414" height="466.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="88" id="B0b-8N-yXt">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LapsCell" rowHeight="88" id="B0b-8N-yXt" customClass="LapsTableViewCell" customModule="CHTimer" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="414" height="88"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="B0b-8N-yXt" id="Ve6-oG-5dO">
@@ -159,6 +168,11 @@
                                                 <constraint firstAttribute="trailing" secondItem="iaz-c2-9ty" secondAttribute="trailing" constant="20" symbolic="YES" id="xvh-8Y-j63"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="lapLabel" destination="EMp-u1-PFu" id="d1V-wc-itI"/>
+                                            <outlet property="memoLabel" destination="iaz-c2-9ty" id="bFb-XJ-65a"/>
+                                            <outlet property="percentLabel" destination="aga-xs-tUf" id="5jJ-UL-4fZ"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -184,15 +198,21 @@
                             <constraint firstItem="z8B-tP-xku" firstAttribute="top" secondItem="TYH-Zu-Nvo" secondAttribute="bottom" constant="50" id="ztk-je-ysz"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="alertLabel" destination="duA-BA-Ule" id="YR1-sj-UZn"/>
+                        <outlet property="lapsTableView" destination="z8B-tP-xku" id="yLy-Zq-bRT"/>
+                        <outlet property="timeProgressBar" destination="32L-pD-K9e" id="hd9-KU-0c9"/>
+                        <outlet property="timerLabel" destination="PN2-M3-EaZ" id="fnu-TF-J7w"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k4W-qO-E3z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1257.9710144927537" y="-143.30357142857142"/>
         </scene>
-        <!--View Controller-->
+        <!--Memo View Controller-->
         <scene sceneID="GYb-k4-ieg">
             <objects>
-                <viewController storyboardIdentifier="MemoVC" id="jdS-eI-DcA" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MemoVC" modalPresentationStyle="fullScreen" id="jdS-eI-DcA" customClass="MemoViewController" customModule="CHTimer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4pK-hI-8GF">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -238,6 +258,12 @@
                             <constraint firstItem="RTP-Oh-TzS" firstAttribute="leading" secondItem="5zD-1t-wEe" secondAttribute="leading" constant="20" id="xhX-FA-Ss6"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="lapLabel" destination="Gyj-tF-vJu" id="chH-yW-q37"/>
+                        <outlet property="memoTextVIew" destination="hsS-AQ-8ok" id="MhL-GO-wuo"/>
+                        <outlet property="percentLabel" destination="Gyj-tF-vJu" id="feA-Ga-ZWa"/>
+                        <outlet property="textLimitLabel" destination="Hw1-2k-quP" id="N4K-To-ECR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FD7-4j-Xn2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

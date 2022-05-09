@@ -15,6 +15,7 @@
 		830E3EE0282817C70077169A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 830E3EDE282817C70077169A /* LaunchScreen.storyboard */; };
 		8390C30928294B6500E8D57A /* TimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8390C30828294B6500E8D57A /* TimerViewController.swift */; };
 		8390C30B28294B7600E8D57A /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8390C30A28294B7600E8D57A /* MemoViewController.swift */; };
+		8390C30E28294D4B00E8D57A /* LapsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8390C30D28294D4B00E8D57A /* LapsTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		830E3EE1282817C70077169A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8390C30828294B6500E8D57A /* TimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewController.swift; sourceTree = "<group>"; };
 		8390C30A28294B7600E8D57A /* MemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewController.swift; sourceTree = "<group>"; };
+		8390C30D28294D4B00E8D57A /* LapsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LapsTableViewCell.swift; path = CHTimer/Source/Cell/LapsTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				8390C30C28294BEF00E8D57A /* VC */,
+				8390C30F28294D5100E8D57A /* Cell */,
 				830E3ED3282817C60077169A /* AppDelegate.swift */,
 				830E3ED5282817C60077169A /* SceneDelegate.swift */,
 			);
@@ -95,6 +98,14 @@
 				8390C30A28294B7600E8D57A /* MemoViewController.swift */,
 			);
 			path = VC;
+			sourceTree = "<group>";
+		};
+		8390C30F28294D5100E8D57A /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8390C30D28294D4B00E8D57A /* LapsTableViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -171,6 +182,7 @@
 				8390C30928294B6500E8D57A /* TimerViewController.swift in Sources */,
 				830E3ED8282817C60077169A /* MainViewController.swift in Sources */,
 				8390C30B28294B7600E8D57A /* MemoViewController.swift in Sources */,
+				8390C30E28294D4B00E8D57A /* LapsTableViewCell.swift in Sources */,
 				830E3ED4282817C60077169A /* AppDelegate.swift in Sources */,
 				830E3ED6282817C60077169A /* SceneDelegate.swift in Sources */,
 			);
