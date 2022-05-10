@@ -12,18 +12,26 @@ class TimerViewController: UIViewController {
     static var identifier = "TimerVC"
     
     var timer = Timer()
-    var timeInt: Int = Int()
+    var setTime: Int = Int()
     var hours: Int = Int()
     var minutes: Int = Int()
     var seconds: Int = Int()
+    var milliseconds: Int = Int()
     var elapsedTimeSeconds: Int = Int()
     var remainSeconds: Int = Int()
-    var type: currentType = .start
+    var currentType: CurrentType = .play
+    var timerType: TimerType = .hour
     
-    enum currentType {
-        case start
+    enum CurrentType {
+        case play
         case pause
     }
+    
+    enum TimerType {
+        case hour
+        case minute
+    }
+    
     
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var timeProgressBar: UIProgressView!
@@ -38,51 +46,90 @@ class TimerViewController: UIViewController {
         lapsTableView.delegate = self
         lapsTableView.dataSource = self
         
+        if setTime >= 3600 {
+            timerType = .hour
+        } else {
+            timerType = .minute
+        }
+        
         alertLabel.isHidden = true
-        startTimer(with: timeInt)
+        startTimer(with: setTime)
+        
+        lapsTableView.reloadData()
         
     }
     
     func startTimer(with countDownSeconds: Int) {
         let startTime = Date()
         
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [self] timer in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.001, repeats: true, block: { [self] timer in
             elapsedTimeSeconds = Int(Date().timeIntervalSince(startTime))
             remainSeconds = countDownSeconds - elapsedTimeSeconds
             guard remainSeconds >= 0 else {
                 timer.invalidate()
                 return
             }
-            hours = remainSeconds / 3600
-            minutes = (remainSeconds % 3600) / 60
-            seconds = remainSeconds % 60
-        
-            if hours == 0 && minutes == 0 && seconds <= 10 {
-                alertLabel.isHidden = false
-                timerLabel.textColor = .red
+
+            if timerType == .hour {
+                hours = remainSeconds / 3600
+                minutes = (remainSeconds % 3600) / 60
+                seconds = remainSeconds % 60
+            
+                if hours == 0 && minutes == 0 && seconds <= 10 {
+                    alertLabel.isHidden = false
+                    timerLabel.textColor = .red
+                }
+                if hours == 0 && minutes == 0 && seconds == 0 {
+                    UIAlertController.timeEndAlert(message: "타이머가 종료되었습니다.", vc: self)
+                }
+                self.timerLabel.text = String(format: "%02d : %02d : %02d", hours, minutes, seconds)
+            } else {
+                minutes = (remainSeconds % 3600) / 60
+                seconds = remainSeconds % 60
+                milliseconds = (remainSeconds / 1000) % 60
+                print(minutes)
+                print(seconds)
+                print(remainSeconds)
+                
+                if minutes == 0 && seconds <= 10 {
+                    alertLabel.isHidden = false
+                    timerLabel.textColor = .red
+                }
+                if minutes == 0 && seconds == 0 && milliseconds == 0 {
+                    UIAlertController.timeEndAlert(message: "타이머가 종료되었습니다.", vc: self)
+                }
+                self.timerLabel.text = String(format: "%02d : %02d : %02d", minutes, seconds, milliseconds)
             }
-            if hours == 0 && minutes == 0 && seconds == 0 {
-                UIAlertController.timeEndAlert(message: "타이머가 종료되었습니다.", vc: self)
-            }
-            self.timerLabel.text = String(format: "%02d : %02d : %02d", hours, minutes, seconds)
+            
         })
     }
     
     @IBAction func replayButton(_ sender: UIButton) {
-        if type == .start {
+        if currentType == .play {
             replayButton.setTitle("다시시작", for: .normal)
             replayButton.backgroundColor = .systemGreen
             timer.invalidate()
-            type = .pause
+            currentType = .pause
         } else {
             replayButton.setTitle("일시정지", for: .normal)
             replayButton.backgroundColor = .systemGray2
             startTimer(with: remainSeconds)
-            type = .start
+            currentType = .play
         }
     }
     
     @IBAction func lapButton(_ sender: UIButton) {
+        let lap = timerLabel.text!
+        var percent = 100 - ((Double(remainSeconds) / Double(setTime)) * 100)
+        percent = round(percent * 10) / 10
+        if percent > 100 {
+            percent = 100
+        }
+        let addLap = Laps(lap: lap, percent: percent)
+
+        Laps.laps.append(addLap)
+        
+        lapsTableView.reloadData()
         
     }
     
@@ -92,17 +139,37 @@ class TimerViewController: UIViewController {
     
 }
 
-extension MainViewController: UITableViewDataSource {
+extension TimerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = 
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: LapsTableViewCell.identifier, for: indexPath) as? LapsTableViewCell else { return UITableViewCell() }
+        let lapCell = Laps.laps[indexPath.row]
+        
+        cell.lapLabel.text = lapCell.lap
+        cell.percentLabel.text = "( \(lapCell.percent)% 경과 )"
+        cell.memoLabel.text = lapCell.memo
         
         return cell
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return Laps.laps.count
     }
     
 }
 
-extension MainViewController: UITableViewDelegate {
+extension TimerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 80
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if currentType == .play {
+            UIAlertController.showAlert(message: "타이머를 멈추고 다시 시도해주세요.", vc: self)
+        } else {
+            guard let memoVC = self.storyboard?.instantiateViewController(withIdentifier: MemoViewController.identifier) as? MemoViewController else { return }
+            
+            memoVC.addMemo = Laps.laps[indexPath.row]
+            memoVC.row = indexPath.row
+            self.present(memoVC, animated: true)
+        }
+        
     }
 }

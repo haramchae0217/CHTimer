@@ -19,7 +19,7 @@ class MainViewController: UIViewController {
     
     @IBAction func startButton(_ sender: UIButton) {
         guard let moveTimeVC = self.storyboard?.instantiateViewController(withIdentifier: TimerViewController.identifier) as? TimerViewController else { return }
-        moveTimeVC.timeInt = Int(timePicker.countDownDuration)
+        moveTimeVC.setTime = Int(timePicker.countDownDuration)
         self.present(moveTimeVC, animated: true)
         
     }

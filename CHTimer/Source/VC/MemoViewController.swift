@@ -16,18 +16,25 @@ class MemoViewController: UIViewController {
     @IBOutlet weak var memoTextVIew: UITextView!
     @IBOutlet weak var textLimitLabel: UILabel!
     
+    var addMemo: Laps?
+    var row: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "메모 추가하기"
-        
+        print(addMemo)
         let rightBarButton = UIBarButtonItem(title: "저장", style: .done, target: self, action: #selector(saveButton))
         self.navigationItem.rightBarButtonItem = rightBarButton
         
         let leftBarButton = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(cancelButton))
         self.navigationItem.leftBarButtonItem = leftBarButton
     
-        
+        if let addMemo = addMemo {
+            lapLabel.text = addMemo.lap
+            percentLabel.text = "( \(addMemo.percent)% 경과 )"
+            memoTextVIew.text = addMemo.memo
+        }
         
     }
     
