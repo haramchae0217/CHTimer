@@ -11,6 +11,12 @@ class TimerViewController: UIViewController {
 
     static var identifier = "TimerVC"
     
+    @IBOutlet weak var timerLabel: UILabel!
+    @IBOutlet weak var timeProgressBar: UIProgressView!
+    @IBOutlet weak var alertLabel: UILabel!
+    @IBOutlet weak var lapsTableView: UITableView!
+    @IBOutlet weak var replayButton: UIButton!
+    
     var timer = Timer()
     var setTime: Int = Int()
     var hours: Int = Int()
@@ -32,19 +38,13 @@ class TimerViewController: UIViewController {
         case minute
     }
     
-    
-    @IBOutlet weak var timerLabel: UILabel!
-    @IBOutlet weak var timeProgressBar: UIProgressView!
-    @IBOutlet weak var alertLabel: UILabel!
-    @IBOutlet weak var lapsTableView: UITableView!
-    @IBOutlet weak var replayButton: UIButton!
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         lapsTableView.delegate = self
         lapsTableView.dataSource = self
+        
+        replayButton.layer.cornerRadius = 10
         
         if setTime >= 3600 {
             timerType = .hour
@@ -86,9 +86,10 @@ class TimerViewController: UIViewController {
             } else {
                 minutes = (remainSeconds % 3600) / 60
                 seconds = remainSeconds % 60
-                milliseconds = (remainSeconds / 1000) % 60
+                
                 print(minutes)
                 print(seconds)
+                
                 print(remainSeconds)
                 
                 if minutes == 0 && seconds <= 10 {
@@ -134,7 +135,9 @@ class TimerViewController: UIViewController {
     }
     
     @IBAction func cancelButton(_ sender: UIButton) {
-        
+        timer.invalidate()
+        Laps.laps = []
+        self.dismiss(animated: true)
     }
     
 }

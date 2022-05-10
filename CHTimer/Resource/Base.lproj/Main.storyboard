@@ -260,7 +260,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="lapLabel" destination="Gyj-tF-vJu" id="chH-yW-q37"/>
+                        <outlet property="lapLabel" destination="RTP-Oh-TzS" id="Hab-dE-T4K"/>
                         <outlet property="memoTextVIew" destination="hsS-AQ-8ok" id="MhL-GO-wuo"/>
                         <outlet property="percentLabel" destination="Gyj-tF-vJu" id="feA-Ga-ZWa"/>
                         <outlet property="textLimitLabel" destination="Hw1-2k-quP" id="N4K-To-ECR"/>
