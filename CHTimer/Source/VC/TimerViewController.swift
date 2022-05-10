@@ -36,16 +36,16 @@ class TimerViewController: UIViewController {
         super.viewDidLoad()
         
         alertLabel.isHidden = true
-        startTimer(with: Double(timeInt))
+        startTimer(with: timeInt)
         
     }
     
-    func startTimer(with countDownSeconds: Double) {
+    func startTimer(with countDownSeconds: Int) {
         let startTime = Date()
         
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [self] timer in
             elapsedTimeSeconds = Int(Date().timeIntervalSince(startTime))
-            remainSeconds = Int(countDownSeconds) - elapsedTimeSeconds
+            remainSeconds = countDownSeconds - elapsedTimeSeconds
             guard remainSeconds >= 0 else {
                 timer.invalidate()
                 return
@@ -53,6 +53,7 @@ class TimerViewController: UIViewController {
             hours = remainSeconds / 3600
             minutes = (remainSeconds % 3600) / 60
             seconds = remainSeconds % 60
+        
             if hours == 0 && minutes == 0 && seconds <= 10 {
                 alertLabel.isHidden = false
                 timerLabel.textColor = .red
@@ -60,7 +61,7 @@ class TimerViewController: UIViewController {
             if hours == 0 && minutes == 0 && seconds == 0 {
                 UIAlertController.showAlert(message: "타이머가 종료되었습니다.", vc: self)
             }
-            self.timerLabel.text = "\(hours) : \(minutes) : \(seconds)"
+            self.timerLabel.text = String(format: "%02d : %02d : %02d", hours, minutes, seconds)
         })
     }
     
@@ -73,7 +74,7 @@ class TimerViewController: UIViewController {
         } else {
             replayButton.setTitle("일시정지", for: .normal)
             replayButton.backgroundColor = .systemGray2
-            startTimer(with: Double(remainSeconds))
+            startTimer(with: remainSeconds)
             type = .start
         }
     }

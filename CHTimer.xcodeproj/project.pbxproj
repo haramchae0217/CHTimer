@@ -71,14 +71,22 @@
 			path = CHTimer;
 			sourceTree = "<group>";
 		};
+		830E415F282A74C300A81247 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				830E415D282A70CC00A81247 /* UIAlertController++Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		832EA2292829432600B7B663 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				830E415F282A74C300A81247 /* Extension */,
 				8390C30C28294BEF00E8D57A /* VC */,
 				8390C30F28294D5100E8D57A /* Cell */,
 				830E3ED3282817C60077169A /* AppDelegate.swift */,
 				830E3ED5282817C60077169A /* SceneDelegate.swift */,
-				830E415D282A70CC00A81247 /* UIAlertController++Extension.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
