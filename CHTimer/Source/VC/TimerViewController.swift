@@ -56,7 +56,12 @@ class TimerViewController: UIViewController {
         startTimer(with: setTime)
         
         lapsTableView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        lapsTableView.reloadData()
     }
     
     func startTimer(with countDownSeconds: Int) {
@@ -86,11 +91,7 @@ class TimerViewController: UIViewController {
             } else {
                 minutes = (remainSeconds % 3600) / 60
                 seconds = remainSeconds % 60
-                
-                print(minutes)
-                print(seconds)
-                
-                print(remainSeconds)
+                milliseconds = remainSeconds 
                 
                 if minutes == 0 && seconds <= 10 {
                     alertLabel.isHidden = false
@@ -130,6 +131,9 @@ class TimerViewController: UIViewController {
 
         Laps.laps.append(addLap)
         
+        let sortData = Laps.laps.sorted(by: { $0.percent > $1.percent })
+        Laps.laps = sortData
+        
         lapsTableView.reloadData()
         
     }
@@ -168,9 +172,9 @@ extension TimerViewController: UITableViewDelegate {
             UIAlertController.showAlert(message: "타이머를 멈추고 다시 시도해주세요.", vc: self)
         } else {
             guard let memoVC = self.storyboard?.instantiateViewController(withIdentifier: MemoViewController.identifier) as? MemoViewController else { return }
-            
             memoVC.addMemo = Laps.laps[indexPath.row]
             memoVC.row = indexPath.row
+            memoVC.modalPresentationStyle = .fullScreen
             self.present(memoVC, animated: true)
         }
         
