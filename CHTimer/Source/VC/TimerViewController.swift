@@ -11,34 +11,70 @@ class TimerViewController: UIViewController {
 
     static var identifier = "TimerVC"
     
+    var timer = Timer()
     var timeInt: Int = Int()
     var hours: Int = Int()
     var minutes: Int = Int()
     var seconds: Int = Int()
+    var elapsedTimeSeconds: Int = Int()
+    var remainSeconds: Int = Int()
+    var type: currentType = .start
+    
+    enum currentType {
+        case start
+        case pause
+    }
     
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var timeProgressBar: UIProgressView!
     @IBOutlet weak var alertLabel: UILabel!
     @IBOutlet weak var lapsTableView: UITableView!
+    @IBOutlet weak var replayButton: UIButton!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        hours = timeInt / 3600
-        minutes = (timeInt % 3600) / 60
-        seconds = timeInt % 60
+        alertLabel.isHidden = true
+        startTimer(with: Double(timeInt))
         
-        timerLabel.text = "\(hours) : \(minutes) : \(seconds)"
-        print(timeInt)
-        print(hours)
-        print(minutes)
-        print(seconds)
-
+    }
+    
+    func startTimer(with countDownSeconds: Double) {
+        let startTime = Date()
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [self] timer in
+            elapsedTimeSeconds = Int(Date().timeIntervalSince(startTime))
+            remainSeconds = Int(countDownSeconds) - elapsedTimeSeconds
+            guard remainSeconds >= 0 else {
+                timer.invalidate()
+                return
+            }
+            hours = remainSeconds / 3600
+            minutes = (remainSeconds % 3600) / 60
+            seconds = remainSeconds % 60
+            if hours == 0 && minutes == 0 && seconds <= 10 {
+                alertLabel.isHidden = false
+                timerLabel.textColor = .red
+            } else if hours == 0 && minutes == 0 && seconds == 0 {
+                
+            }
+            self.timerLabel.text = "\(hours) : \(minutes) : \(seconds)"
+        })
     }
     
     @IBAction func replayButton(_ sender: UIButton) {
-        
+        if type == .start {
+            replayButton.setTitle("다시시작", for: .normal)
+            replayButton.backgroundColor = .systemGreen
+            timer.invalidate()
+            type = .pause
+        } else {
+            replayButton.setTitle("일시정지", for: .normal)
+            replayButton.backgroundColor = .systemGray2
+            startTimer(with: Double(remainSeconds))
+            type = .start
+        }
     }
     
     @IBAction func lapButton(_ sender: UIButton) {
