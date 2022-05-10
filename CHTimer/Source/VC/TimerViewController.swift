@@ -56,8 +56,9 @@ class TimerViewController: UIViewController {
             if hours == 0 && minutes == 0 && seconds <= 10 {
                 alertLabel.isHidden = false
                 timerLabel.textColor = .red
-            } else if hours == 0 && minutes == 0 && seconds == 0 {
-                
+            }
+            if hours == 0 && minutes == 0 && seconds == 0 {
+                UIAlertController.showAlert(message: "타이머가 종료되었습니다.", vc: self)
             }
             self.timerLabel.text = "\(hours) : \(minutes) : \(seconds)"
         })

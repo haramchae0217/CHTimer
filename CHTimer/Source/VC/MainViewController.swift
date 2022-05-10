@@ -14,7 +14,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        timePicker.maximumDate = Date(timeInterval: 6000, since: Date())
+        
     }
     
     @IBAction func startButton(_ sender: UIButton) {
