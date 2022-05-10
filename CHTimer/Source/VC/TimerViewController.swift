@@ -35,6 +35,9 @@ class TimerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        lapsTableView.delegate = self
+        lapsTableView.dataSource = self
+        
         alertLabel.isHidden = true
         startTimer(with: timeInt)
         
@@ -59,7 +62,7 @@ class TimerViewController: UIViewController {
                 timerLabel.textColor = .red
             }
             if hours == 0 && minutes == 0 && seconds == 0 {
-                UIAlertController.showAlert(message: "타이머가 종료되었습니다.", vc: self)
+                UIAlertController.timeEndAlert(message: "타이머가 종료되었습니다.", vc: self)
             }
             self.timerLabel.text = String(format: "%02d : %02d : %02d", hours, minutes, seconds)
         })
@@ -87,8 +90,19 @@ class TimerViewController: UIViewController {
         
     }
     
+}
+
+extension MainViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = 
+        
+        return cell
+    }
     
-    
-    
-    
+}
+
+extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
 }
