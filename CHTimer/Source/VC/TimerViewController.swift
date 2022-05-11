@@ -16,6 +16,8 @@ class TimerViewController: UIViewController {
     @IBOutlet weak var alertLabel: UILabel!
     @IBOutlet weak var lapsTableView: UITableView!
     @IBOutlet weak var replayButton: UIButton!
+    @IBOutlet weak var lapButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     
     var timer = Timer()
     var setTime: Int = Int()
@@ -44,7 +46,8 @@ class TimerViewController: UIViewController {
         lapsTableView.delegate = self
         lapsTableView.dataSource = self
         
-        replayButton.layer.cornerRadius = 10
+        buttonSet()
+        progressBarSet()
         
         if setTime >= 3600 {
             timerType = .hour
@@ -62,6 +65,19 @@ class TimerViewController: UIViewController {
         super.viewWillAppear(animated)
         
         lapsTableView.reloadData()
+    }
+    
+    func progressBarSet() {
+        timeProgressBar.progressViewStyle = .default
+        timeProgressBar.progressTintColor = .blue
+        timeProgressBar.trackTintColor = .lightGray
+        timeProgressBar.layer.cornerRadius = 8
+    }
+    
+    func buttonSet() {
+        replayButton.layer.cornerRadius = 10
+        lapButton.layer.cornerRadius = 10
+        cancelButton.layer.cornerRadius = 10
     }
     
     func startTimer(with countDownSeconds: Int) {

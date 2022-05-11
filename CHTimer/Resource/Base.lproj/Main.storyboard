@@ -44,6 +44,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="startButton" destination="aYC-la-dAh" id="Rlh-a3-Wee"/>
                         <outlet property="timePicker" destination="hQd-du-JML" id="eqo-QF-Gop"/>
                     </connections>
                 </viewController>
@@ -200,6 +201,8 @@
                     </view>
                     <connections>
                         <outlet property="alertLabel" destination="duA-BA-Ule" id="YR1-sj-UZn"/>
+                        <outlet property="cancelButton" destination="mmP-jK-hzg" id="bLu-DC-hoY"/>
+                        <outlet property="lapButton" destination="GlD-tf-BvG" id="v4W-FU-lJg"/>
                         <outlet property="lapsTableView" destination="z8B-tP-xku" id="yLy-Zq-bRT"/>
                         <outlet property="replayButton" destination="bIc-Mf-j8z" id="pXY-y4-CFi"/>
                         <outlet property="timeProgressBar" destination="32L-pD-K9e" id="hd9-KU-0c9"/>

@@ -10,11 +10,16 @@ import UIKit
 class MainViewController: UIViewController {
 
     @IBOutlet weak var timePicker: UIDatePicker!
+    @IBOutlet weak var startButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        buttonSet()
+    }
+    
+    func buttonSet() {
+        startButton.layer.cornerRadius = 10
     }
     
     @IBAction func startButton(_ sender: UIButton) {
