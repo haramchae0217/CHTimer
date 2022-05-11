@@ -20,15 +20,13 @@ class TimerViewController: UIViewController {
     @IBOutlet weak var cancelButton: UIButton!
     
     var timer = Timer()
-    var progressTimer = Timer()
     var setTime: Int = Int()
-    var progress: Float = Float()
+    var milliTime: Double = Double()
+    var progress: Float = 1.0
     var hours: Int = Int()
     var minutes: Int = Int()
     var seconds: Int = Int()
     var milliseconds: Int = Int()
-    var elapsedTimeSeconds: Int = Int()
-    var remainSeconds: Int = Int()
     var currentType: CurrentType = .play
     var timerType: TimerType = .hour
     
@@ -48,18 +46,17 @@ class TimerViewController: UIViewController {
         lapsTableView.delegate = self
         lapsTableView.dataSource = self
         
-        buttonSet()
-        progressBarSet()
-        startProgressBar(1.0, animated: true)
-        
         if setTime >= 3600 {
             timerType = .hour
         } else {
             timerType = .minute
+            milliTime = Double(setTime)
         }
-        
+
+        buttonSet()
+        progressBarSet()
         alertLabel.isHidden = true
-        startTimer(with: setTime)
+        startTimer()
         
         lapsTableView.reloadData()
     }
@@ -72,10 +69,15 @@ class TimerViewController: UIViewController {
     
     func progressBarSet() {
         timeProgressBar.progressViewStyle = .default
-        timeProgressBar.progressTintColor = .blue
+        timeProgressBar.progressTintColor = .systemBlue
         timeProgressBar.trackTintColor = .lightGray
         timeProgressBar.transform = timeProgressBar.transform.scaledBy(x: 1, y: 3)
+        timeProgressBar.clipsToBounds = true
         timeProgressBar.layer.cornerRadius = 8
+        timeProgressBar.clipsToBounds = true
+        timeProgressBar.layer.sublayers![1].cornerRadius = 8
+        timeProgressBar.subviews[1].clipsToBounds = true
+        timeProgressBar.setProgress(progress, animated: true)
     }
     
     func buttonSet() {
@@ -84,83 +86,78 @@ class TimerViewController: UIViewController {
         cancelButton.layer.cornerRadius = 10
     }
     
-    func startProgressBar(_ progress: Float, animated: Bool) {
-        timeProgressBar.setProgress(1.0, animated: true)
+    func startTimer() {
+        if timerType == .hour {
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(setTimer), userInfo: nil, repeats: true)
+        } else {
+            timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(setTimer), userInfo: nil, repeats: true)
+        }
+        
     }
     
-    func startTimer(with countDownSeconds: Int) {
-        let startTime = Date()
-        
+    @objc func setTimer() {
         if timerType == .hour {
-            timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [self] timer in
-            elapsedTimeSeconds = Int(Date().timeIntervalSince(startTime))
-                remainSeconds = countDownSeconds - elapsedTimeSeconds
-                guard remainSeconds >= 0 else {
-                    timer.invalidate()
-                    return
-                }
-                print(remainSeconds)
-                progress -= Float(remainSeconds)
-                timeProgressBar.setProgress(progress, animated: true)
-                hours = remainSeconds / 3600
-                minutes = (remainSeconds % 3600) / 60
-                seconds = remainSeconds % 60
-
-                if hours == 0 && minutes == 0 && seconds <= 10 {
-                    alertLabel.isHidden = false
-                    timerLabel.textColor = .red
-                    timeProgressBar.progressTintColor = .red
-                }
-                if hours == 0 && minutes == 0 && seconds == 0 {
-                    UIAlertController.timeEndAlert(message: "타이머가 종료되었습니다.", vc: self)
-                }
-                self.timerLabel.text = String(format: "%02d : %02d : %02d", hours, minutes, seconds)
-            })
+            progress -= Float(setTime)
+            timeProgressBar.setProgress(progress, animated: true)
+            if progress >= 1.0 { timer.invalidate() }
+            setTime -= 1
+            hours = setTime / 3600
+            minutes = (setTime % 3600) / 60
+            seconds = setTime % 60
+            if hours == 0 && minutes == 0 && seconds <= 10 {
+                alertLabel.isHidden = false
+                timerLabel.textColor = .red
+                timeProgressBar.progressTintColor = .red
+            }
+            if hours == 0 && minutes == 0 && seconds == 0 {
+                UIAlertController.timeEndAlert(message: "타이머가 종료되었습니다.", vc: self)
+            }
+            self.timerLabel.text = String(format: "%02d : %02d : %02d", hours, minutes, seconds)
+            if setTime <= 0 {
+                timer.invalidate()
+            }
         } else {
-            timer = Timer.scheduledTimer(withTimeInterval: 0.001, repeats: true, block: { [self] timer in
-            elapsedTimeSeconds = Int(Date().timeIntervalSince(startTime))
-                remainSeconds = countDownSeconds - elapsedTimeSeconds
-                guard remainSeconds >= 0 else {
-                    timer.invalidate()
-                    return
-                }
-                print(remainSeconds)
-                progress -= Float(remainSeconds)
-                timeProgressBar.setProgress(progress, animated: true)
-                minutes = (remainSeconds % 3600) / 60
-                seconds = remainSeconds % 60
-                milliseconds = remainSeconds
-
-                if minutes == 0 && seconds <= 10 {
-                    alertLabel.isHidden = false
-                    timerLabel.textColor = .red
-                    timeProgressBar.progressTintColor = .red
-                }
-                if minutes == 0 && seconds == 0 && milliseconds == 0 {
-                    UIAlertController.timeEndAlert(message: "타이머가 종료되었습니다.", vc: self)
-                }
-                self.timerLabel.text = String(format: "%02d : %02d : %02d", minutes, seconds, milliseconds)
-            })
+            progress -= Float(setTime)
+            timeProgressBar.setProgress(progress, animated: true)
+            if progress >= 1.0 { timer.invalidate() }
+            milliTime -= 0.001
+            minutes = (Int(milliTime) % 3600) / 60
+            seconds = Int(milliTime) % 60
+            milliseconds = Int((milliTime - floor(milliTime)) * 100)
+            if minutes == 0 && seconds <= 10 {
+                alertLabel.isHidden = false
+                timerLabel.textColor = .red
+                timeProgressBar.progressTintColor = .red
+            }
+            if minutes == 0 && seconds == 0 && milliseconds == 0 {
+                UIAlertController.timeEndAlert(message: "타이머가 종료되었습니다.", vc: self)
+            }
+            self.timerLabel.text = String(format: "%02d : %02d : %02d", minutes, seconds, milliseconds)
+            if setTime <= 0 {
+                timer.invalidate()
+            }
         }
+        
     }
     
     @IBAction func replayButton(_ sender: UIButton) {
         if currentType == .play {
+            timer.invalidate()
             replayButton.setTitle("다시시작", for: .normal)
             replayButton.backgroundColor = .systemGreen
-            timer.invalidate()
             currentType = .pause
         } else {
+            startTimer()
             replayButton.setTitle("일시정지", for: .normal)
             replayButton.backgroundColor = .systemGray2
-            startTimer(with: remainSeconds)
             currentType = .play
         }
     }
     
     @IBAction func lapButton(_ sender: UIButton) {
         let lap = timerLabel.text!
-        var percent = 100 - ((Double(remainSeconds) / Double(setTime)) * 100)
+        let recentTime = setTime
+        var percent = 100 - ((Double(recentTime) / Double(setTime)) * 100)
         percent = round(percent * 10) / 10
         if percent > 100 {
             percent = 100
