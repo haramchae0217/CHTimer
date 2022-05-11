@@ -92,14 +92,13 @@ class TimerViewController: UIViewController {
         } else {
             timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(setTimer), userInfo: nil, repeats: true)
         }
-        
     }
     
     @objc func setTimer() {
         if timerType == .hour {
             progress -= Float(setTime)
             timeProgressBar.setProgress(progress, animated: true)
-            if progress >= 1.0 { timer.invalidate() }
+            
             setTime -= 1
             hours = setTime / 3600
             minutes = (setTime % 3600) / 60
@@ -110,16 +109,17 @@ class TimerViewController: UIViewController {
                 timeProgressBar.progressTintColor = .red
             }
             if hours == 0 && minutes == 0 && seconds == 0 {
+                timer.invalidate()
                 UIAlertController.timeEndAlert(message: "타이머가 종료되었습니다.", vc: self)
             }
             self.timerLabel.text = String(format: "%02d : %02d : %02d", hours, minutes, seconds)
-            if setTime <= 0 {
-                timer.invalidate()
-            }
         } else {
-            progress -= Float(setTime)
+            progress = 1.0
+            progress -= 1/Float(setTime)
+            print(progress)
             timeProgressBar.setProgress(progress, animated: true)
-            if progress >= 1.0 { timer.invalidate() }
+            if progress == 0.0 { timer.invalidate(); print("프로그레스 종료") }
+            
             milliTime -= 0.001
             minutes = (Int(milliTime) % 3600) / 60
             seconds = Int(milliTime) % 60
@@ -130,12 +130,10 @@ class TimerViewController: UIViewController {
                 timeProgressBar.progressTintColor = .red
             }
             if minutes == 0 && seconds == 0 && milliseconds == 0 {
+                timer.invalidate()
                 UIAlertController.timeEndAlert(message: "타이머가 종료되었습니다.", vc: self)
             }
             self.timerLabel.text = String(format: "%02d : %02d : %02d", minutes, seconds, milliseconds)
-            if setTime <= 0 {
-                timer.invalidate()
-            }
         }
         
     }
