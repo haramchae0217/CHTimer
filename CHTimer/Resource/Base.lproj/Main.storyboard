@@ -69,8 +69,8 @@
                                 <color key="textColor" systemColor="systemRedColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00 : 00 : 00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PN2-M3-EaZ">
-                                <rect key="frame" x="70" y="168" width="274" height="60"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00  :  00  :  00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PN2-M3-EaZ">
+                                <rect key="frame" x="20" y="168" width="374" height="60"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="50"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -197,9 +197,9 @@
                             <constraint firstItem="FoQ-vt-UQ3" firstAttribute="trailing" secondItem="TYH-Zu-Nvo" secondAttribute="trailing" constant="20" id="SOv-Ia-lHT"/>
                             <constraint firstItem="PN2-M3-EaZ" firstAttribute="top" secondItem="duA-BA-Ule" secondAttribute="bottom" constant="20" id="XEd-Ga-rQv"/>
                             <constraint firstItem="FoQ-vt-UQ3" firstAttribute="trailing" secondItem="duA-BA-Ule" secondAttribute="trailing" constant="70" id="b7S-4c-u6C"/>
-                            <constraint firstItem="FoQ-vt-UQ3" firstAttribute="trailing" secondItem="PN2-M3-EaZ" secondAttribute="trailing" constant="70" id="lNZ-4T-Pdi"/>
+                            <constraint firstItem="FoQ-vt-UQ3" firstAttribute="trailing" secondItem="PN2-M3-EaZ" secondAttribute="trailing" constant="20" id="lNZ-4T-Pdi"/>
                             <constraint firstItem="TYH-Zu-Nvo" firstAttribute="top" secondItem="32L-pD-K9e" secondAttribute="bottom" constant="50" id="lf3-t9-BYf"/>
-                            <constraint firstItem="PN2-M3-EaZ" firstAttribute="leading" secondItem="FoQ-vt-UQ3" secondAttribute="leading" constant="70" id="n9b-iR-eDb"/>
+                            <constraint firstItem="PN2-M3-EaZ" firstAttribute="leading" secondItem="FoQ-vt-UQ3" secondAttribute="leading" constant="20" id="n9b-iR-eDb"/>
                             <constraint firstItem="FoQ-vt-UQ3" firstAttribute="trailing" secondItem="z8B-tP-xku" secondAttribute="trailing" id="tME-hQ-9Au"/>
                             <constraint firstItem="duA-BA-Ule" firstAttribute="top" secondItem="FoQ-vt-UQ3" secondAttribute="top" constant="80" id="vwF-L3-w4B"/>
                             <constraint firstItem="z8B-tP-xku" firstAttribute="top" secondItem="TYH-Zu-Nvo" secondAttribute="bottom" constant="50" id="ztk-je-ysz"/>

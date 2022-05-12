@@ -115,8 +115,8 @@
 		8390C30C28294BEF00E8D57A /* VC */ = {
 			isa = PBXGroup;
 			children = (
-				830E3ED7282817C60077169A /* MainViewController.swift */,
 				8390C30828294B6500E8D57A /* TimerViewController.swift */,
+				830E3ED7282817C60077169A /* MainViewController.swift */,
 				8390C30A28294B7600E8D57A /* MemoViewController.swift */,
 			);
 			path = VC;
