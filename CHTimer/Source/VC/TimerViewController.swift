@@ -57,8 +57,8 @@ class TimerViewController: UIViewController {
 
         buttonSet()
         progressBarSet()
-        alertLabel.isHidden = true
         startTimer()
+        alertLabel.isHidden = true
         
         lapsTableView.reloadData()
     }
@@ -98,8 +98,8 @@ class TimerViewController: UIViewController {
     
     @objc func setTimer() {
         if timerType == .hour {
-            
-            progress -= Float(setTime)
+            progress = 1.0
+            progress -= Float(hourTime)
             timeProgressBar.setProgress(progress, animated: true)
             if progress == 0.0 { timer.invalidate(); print("프로그래스 종료") }
             
@@ -118,9 +118,11 @@ class TimerViewController: UIViewController {
             }
             self.timerLabel.text = String(format: "%02d : %02d : %02d", hours, minutes, seconds)
         } else {
-            
-            progress -= Float(milliTime)
-            print(progress)
+            let reduceTime = 1.0/Float(setTime*900)
+            print(reduceTime)
+            progress -= reduceTime
+//            print(progress)
+//            print(milliTime)
             timeProgressBar.setProgress(progress, animated: true)
             if progress == 0.0 { timer.invalidate(); print("프로그레스 종료") }
             
@@ -168,9 +170,6 @@ class TimerViewController: UIViewController {
         }
         var percent = 100 - ((Double(recentTime) / Double(setTime)) * 100)
         percent = round(percent * 10) / 10
-        print(recentTime)
-        print(setTime)
-        print(percent)
         if percent > 100 {
             percent = 100
         }
