@@ -98,8 +98,11 @@ class TimerViewController: UIViewController {
     
     @objc func setTimer() {
         if timerType == .hour {
-            progress = 1.0
-            progress -= Float(hourTime)
+            let reduceTime = 1.0/Float(setTime)
+            progress -= reduceTime
+            print(reduceTime)
+            print(progress)
+            
             timeProgressBar.setProgress(progress, animated: true)
             if progress == 0.0 { timer.invalidate(); print("프로그래스 종료") }
             
@@ -217,11 +220,14 @@ extension TimerViewController: UITableViewDelegate {
         if currentType == .play {
             UIAlertController.showAlert(message: "타이머를 멈추고 다시 시도해주세요.", vc: self)
         } else {
-            guard let memoVC = self.storyboard?.instantiateViewController(withIdentifier: MemoViewController.identifier) as? MemoViewController else { return }
+            guard let memoNC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MemoNC") as? UINavigationController else { return }
+            guard let memoVC = memoNC.children.first as? MemoViewController else { return }
+        
             memoVC.addMemo = Laps.laps[indexPath.row]
             memoVC.row = indexPath.row
-            memoVC.modalPresentationStyle = .fullScreen
-            self.present(memoVC, animated: true)
+            
+            memoNC.modalPresentationStyle = .fullScreen
+            self.present(memoNC, animated: true)
         }
         
     }

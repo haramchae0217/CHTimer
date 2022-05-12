@@ -33,13 +33,11 @@ class MemoViewController: UIViewController {
         
         navigationController?.navigationBar.barStyle = .black
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "저장", style: .done, target: self, action: #selector(saveButton))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(cancelButton))
-//        let rightBarButton = UIBarButtonItem(title: "저장", style: .done, target: self, action: #selector(saveButton))
-//        self.navigationItem.rightBarButtonItem = rightBarButton
+        let rightBarButton = UIBarButtonItem(title: "저장", style: .done, target: self, action: #selector(saveButton))
+        self.navigationItem.rightBarButtonItem = rightBarButton
         
-//        let leftBarButton = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(cancelButton))
-//        self.navigationItem.leftBarButtonItem = leftBarButton
+        let leftBarButton = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(cancelButton))
+        self.navigationItem.leftBarButtonItem = leftBarButton
     
         if let addMemo = addMemo {
             lapLabel.text = addMemo.lap

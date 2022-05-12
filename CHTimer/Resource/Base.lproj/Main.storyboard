@@ -228,19 +228,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00 : 00 : 00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RTP-Oh-TzS">
-                                <rect key="frame" x="20" y="144" width="161" height="36"/>
+                                <rect key="frame" x="20" y="188" width="161" height="36"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="( 00.0% 경과 )" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gyj-tF-vJu">
-                                <rect key="frame" x="50" y="200" width="104" height="21"/>
+                                <rect key="frame" x="50" y="244" width="104" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="메모를 작성하세요" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hsS-AQ-8ok">
-                                <rect key="frame" x="20" y="271" width="374" height="250"/>
+                                <rect key="frame" x="20" y="315" width="374" height="206"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -268,6 +268,7 @@
                             <constraint firstItem="RTP-Oh-TzS" firstAttribute="leading" secondItem="5zD-1t-wEe" secondAttribute="leading" constant="20" id="xhX-FA-Ss6"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="uHI-2f-UXj"/>
                     <connections>
                         <outlet property="lapLabel" destination="RTP-Oh-TzS" id="Hab-dE-T4K"/>
                         <outlet property="memoTextVIew" destination="hsS-AQ-8ok" id="MhL-GO-wuo"/>
@@ -277,7 +278,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FD7-4j-Xn2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1258" y="609"/>
+            <point key="canvasLocation" x="2168.1159420289855" y="608.70535714285711"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="2jJ-D3-0yg">
+            <objects>
+                <navigationController storyboardIdentifier="MemoNC" automaticallyAdjustsScrollViewInsets="NO" id="pps-kE-ynu" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5vp-WP-naY">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="jdS-eI-DcA" kind="relationship" relationship="rootViewController" id="MLv-bK-t9u"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ljs-BL-ZHJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1257.9710144927537" y="608.70535714285711"/>
         </scene>
     </scenes>
     <resources>
