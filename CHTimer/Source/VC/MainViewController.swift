@@ -23,10 +23,10 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func startButton(_ sender: UIButton) {
-        guard let moveTimeVC = self.storyboard?.instantiateViewController(withIdentifier: TimerViewController.identifier) as? TimerViewController else { return }
-        moveTimeVC.setTime = Int(timePicker.countDownDuration)
-        moveTimeVC.modalPresentationStyle = .fullScreen
-        self.present(moveTimeVC, animated: true)
+        guard let timeVC = self.storyboard?.instantiateViewController(withIdentifier: TimerViewController.identifier) as? TimerViewController else { return }
+        timeVC.setTime = Int(timePicker.countDownDuration)
+        timeVC.modalPresentationStyle = .fullScreen
+        self.present(timeVC, animated: true)
         
     }
     

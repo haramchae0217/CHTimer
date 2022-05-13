@@ -48,10 +48,10 @@ class MemoViewController: UIViewController {
     
     @objc func saveButton() {
         if numberOfCharacters > 50 {
-            UIAlertController.showAlert(message: "50자 이내로 작성해주세요.", vc: self)
+            UIAlertController.showAlert(message: "50자 이내로 작성해주세요.", viewcontroller: self)
         } else {
-            if let row = row {
-                Laps.laps[row] = Laps(lap: (addMemo?.lap)!, percent: (addMemo?.percent)!, memo: memoTextVIew.text!)
+            if let row = row, let memo = addMemo {
+                Laps.laps[row] = Laps(lap: memo.lap, percent: memo.percent, memo: memoTextVIew.text!)
                 self.dismiss(animated: true)
             }
         }
