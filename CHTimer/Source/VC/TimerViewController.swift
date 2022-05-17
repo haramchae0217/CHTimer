@@ -120,8 +120,7 @@ class TimerViewController: UIViewController {
             
             self.timerLabel.text = String(format: "%02d : %02d : %02d", hours, minutes, seconds)
         } else {
-            let reduceTime = 1.0/Float(setTime*900)
-            print(reduceTime)
+            let reduceTime = 0.001/Float(setTime)
             progress -= reduceTime
             timeProgressBar.setProgress(progress, animated: true)
             
@@ -130,7 +129,7 @@ class TimerViewController: UIViewController {
             seconds = Int(milliTime) % 60
             milliseconds = Int((milliTime - floor(milliTime)) * 100)
         
-            if minutes == 0 && seconds <= 10 {
+            if minutes == 0 && seconds <= 10 && milliseconds == 0 {
                 alertLabel.isHidden = false
                 timerLabel.textColor = .red
                 timeProgressBar.progressTintColor = .red
@@ -219,7 +218,12 @@ extension TimerViewController: UITableViewDelegate {
         } else {
             guard let memoNC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MemoNC") as? UINavigationController else { return }
             guard let memoVC = memoNC.children.first as? MemoViewController else { return }
-        
+            
+            if Laps.laps[indexPath.row].memo == "추가 메모 없음" {
+                memoVC.type = .add
+            } else {
+                memoVC.type = .edit
+            }
             memoVC.addMemo = Laps.laps[indexPath.row]
             memoVC.row = indexPath.row
             
