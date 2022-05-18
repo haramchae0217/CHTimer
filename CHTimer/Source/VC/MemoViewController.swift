@@ -11,7 +11,7 @@ class MemoViewController: UIViewController {
 
     static var identifier = "MemoVC"
     
-    enum Viewtype {
+    enum ViewType {
         case add
         case edit
     }
@@ -24,7 +24,7 @@ class MemoViewController: UIViewController {
     var addMemo: Laps?
     var row: Int?
     var numberOfCharacters: Int = Int()
-    var type: Viewtype = .add
+    var type: ViewType = .add
     
     override func viewDidLoad() {
         super.viewDidLoad()

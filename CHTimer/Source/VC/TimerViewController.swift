@@ -30,7 +30,7 @@ class TimerViewController: UIViewController {
     @IBOutlet weak var cancelButton: UIButton!
     
     var timer = Timer()
-    var setTime: Int = 0
+    var setTime: Float = 0
     var hourTime: Int = 0
     var milliTime: Double = 0
     var progress: Float = 1
@@ -38,6 +38,7 @@ class TimerViewController: UIViewController {
     var minutes: Int = 0
     var seconds: Int = 0
     var milliseconds: Int = 0
+    var timeInterver: Float = 0
     var currentType: CurrentType = .play
     var timerType: TimerType = .hour
     
@@ -49,15 +50,13 @@ class TimerViewController: UIViewController {
         
         if setTime >= 3600 {
             timerType = .hour
-            hourTime = setTime
         } else {
             timerType = .minute
-            milliTime = Double(setTime)
         }
 
+        startTimer()
         buttonSet()
         progressBarSet()
-        startTimer()
         alertLabel.isHidden = true
         
         lapsTableView.reloadData()
@@ -96,52 +95,38 @@ class TimerViewController: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(setTimer), userInfo: nil, repeats: true)
     }
     
-    @objc func setTimer() {
-        if timerType == .hour {
-            let reduceTime = 1.0/Float(setTime)
-            progress -= reduceTime
-            timeProgressBar.setProgress(progress, animated: true)
-            
-            hourTime -= 1
-            hours = hourTime / 3600
-            minutes = (hourTime % 3600) / 60
-            seconds = hourTime % 60
-            
-            if hours == 0 && minutes == 0 && seconds <= 10 {
+    func reduceProgess(type: TimerType) {
+        let interval: Float = type == .hour ? 1.0 : 0.001
+        let reduceTime = interval / Float(setTime)
+        progress -= reduceTime
+        timeProgressBar.setProgress(progress, animated: true)
+        
+        hours = Int(setTime / 3600)
+        minutes = (Int(setTime) % 3600) / 60
+        seconds = Int(setTime) % 60
+        milliseconds = Int((setTime - floor(setTime)) * 100)
+        
+        setTime -= interval
+        
+        if hours == 0 && minutes == 0 {
+            if seconds <= 10 {
                 alertLabel.isHidden = false
                 timerLabel.textColor = .red
                 timeProgressBar.progressTintColor = .red
-            }
-            
-            if hours == 0 && minutes == 0 && seconds == 0 {
+            } else if seconds == 0 {
                 timer.invalidate()
                 UIAlertController.timeEndAlert(message: "타이머가 종료되었습니다.", viewcontroller: self)
             }
-            
+        }
+        if type == .hour {
             self.timerLabel.text = String(format: "%02d : %02d : %02d", hours, minutes, seconds)
         } else {
-            let reduceTime = 0.001/Float(setTime)
-            progress -= reduceTime
-            timeProgressBar.setProgress(progress, animated: true)
-            
-            milliTime -= 0.001
-            minutes = (Int(milliTime) % 3600) / 60
-            seconds = Int(milliTime) % 60
-            milliseconds = Int((milliTime - floor(milliTime)) * 100)
-        
-            if minutes == 0 && seconds <= 10 && milliseconds == 0 {
-                alertLabel.isHidden = false
-                timerLabel.textColor = .red
-                timeProgressBar.progressTintColor = .red
-            }
-            
-            if minutes == 0 && seconds == 0 && milliseconds == 0 {
-                timer.invalidate()
-                UIAlertController.timeEndAlert(message: "타이머가 종료되었습니다.", viewcontroller: self)
-            }
-            
             self.timerLabel.text = String(format: "%02d : %02d : %02d", minutes, seconds, milliseconds)
         }
+    }
+    
+    @objc func setTimer() {
+        reduceProgess(type: timerType)
     }
     
     @IBAction func replayButton(_ sender: UIButton) {
@@ -163,9 +148,9 @@ class TimerViewController: UIViewController {
         var recentTime: Double = 0
         
         if timerType == .hour {
-            recentTime = round(Double(hourTime))
+            recentTime = round(Double(setTime))
         } else {
-            recentTime = milliTime
+            recentTime = Double(setTime)
         }
         
         var percent = 100 - ((Double(recentTime) / Double(setTime)) * 100)
@@ -216,15 +201,12 @@ extension TimerViewController: UITableViewDelegate {
         if currentType == .play {
             UIAlertController.showAlert(message: "타이머를 멈추고 다시 시도해주세요.", viewcontroller: self)
         } else {
-            guard let memoNC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MemoNC") as? UINavigationController else { return }
+            guard let memoNC = self.storyboard?.instantiateViewController(withIdentifier: "MemoNC") as? UINavigationController else { return }
             guard let memoVC = memoNC.children.first as? MemoViewController else { return }
             
-            if Laps.laps[indexPath.row].memo == "추가 메모 없음" {
-                memoVC.type = .add
-            } else {
-                memoVC.type = .edit
-            }
-            memoVC.addMemo = Laps.laps[indexPath.row]
+            let item = Laps.laps[indexPath.row]
+            memoVC.type = item.memo == "추가 메모 없음" ? .add : .edit
+            memoVC.addMemo = item
             memoVC.row = indexPath.row
             
             memoNC.modalPresentationStyle = .fullScreen

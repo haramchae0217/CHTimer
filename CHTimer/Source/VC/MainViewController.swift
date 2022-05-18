@@ -24,7 +24,7 @@ class MainViewController: UIViewController {
     
     @IBAction func startButton(_ sender: UIButton) {
         guard let timeVC = self.storyboard?.instantiateViewController(withIdentifier: TimerViewController.identifier) as? TimerViewController else { return }
-        timeVC.setTime = Int(timePicker.countDownDuration)
+        timeVC.setTime = Float(timePicker.countDownDuration)
         timeVC.modalPresentationStyle = .fullScreen
         self.present(timeVC, animated: true)
         
