@@ -31,8 +31,7 @@ class TimerViewController: UIViewController {
     
     var timer = Timer()
     var setTime: Float = 0
-    var hourTime: Int = 0
-    var milliTime: Double = 0
+    var fixedTime: Float = 0
     var progress: Float = 1
     var hours: Int = 0
     var minutes: Int = 0
@@ -47,6 +46,8 @@ class TimerViewController: UIViewController {
         
         lapsTableView.delegate = self
         lapsTableView.dataSource = self
+        
+        fixedTime = setTime
         
         if setTime >= 3600 {
             timerType = .hour
@@ -97,7 +98,7 @@ class TimerViewController: UIViewController {
     
     func reduceProgess(type: TimerType) {
         let interval: Float = type == .hour ? 1.0 : 0.001
-        let reduceTime = interval / Float(setTime)
+        let reduceTime = interval / Float(fixedTime)
         progress -= reduceTime
         timeProgressBar.setProgress(progress, animated: true)
         
@@ -108,19 +109,29 @@ class TimerViewController: UIViewController {
         
         setTime -= interval
         
-        if hours == 0 && minutes == 0 {
-            if seconds <= 10 {
-                alertLabel.isHidden = false
-                timerLabel.textColor = .red
-                timeProgressBar.progressTintColor = .red
-            } else if seconds == 0 {
-                timer.invalidate()
-                UIAlertController.timeEndAlert(message: "타이머가 종료되었습니다.", viewcontroller: self)
-            }
-        }
         if type == .hour {
+            if hours == 0 && minutes == 0 {
+                if seconds == 0 {
+                    timer.invalidate()
+                    UIAlertController.timeEndAlert(message: "타이머가 종료되었습니다.", viewController: self)
+                } else if seconds <= 10 {
+                    alertLabel.isHidden = false
+                    timerLabel.textColor = .red
+                    timeProgressBar.progressTintColor = .red
+                }
+            }
             self.timerLabel.text = String(format: "%02d : %02d : %02d", hours, minutes, seconds)
         } else {
+            if minutes == 0 && milliseconds == 0 {
+                if seconds == 0 {
+                    timer.invalidate()
+                    UIAlertController.timeEndAlert(message: "타이머가 종료되었습니다.", viewController: self)
+                } else if seconds <= 10 {
+                    alertLabel.isHidden = false
+                    timerLabel.textColor = .red
+                    timeProgressBar.progressTintColor = .red
+                }
+            }
             self.timerLabel.text = String(format: "%02d : %02d : %02d", minutes, seconds, milliseconds)
         }
     }
@@ -153,7 +164,7 @@ class TimerViewController: UIViewController {
             recentTime = Double(setTime)
         }
         
-        var percent = 100 - ((Double(recentTime) / Double(setTime)) * 100)
+        var percent = 100 - ((Double(recentTime) / Double(fixedTime)) * 100)
         percent = round(percent * 10) / 10
         
         if percent > 100 {
@@ -199,7 +210,7 @@ extension TimerViewController: UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if currentType == .play {
-            UIAlertController.showAlert(message: "타이머를 멈추고 다시 시도해주세요.", viewcontroller: self)
+            UIAlertController.showAlert(message: "타이머를 멈추고 다시 시도해주세요.", viewController: self)
         } else {
             guard let memoNC = self.storyboard?.instantiateViewController(withIdentifier: "MemoNC") as? UINavigationController else { return }
             guard let memoVC = memoNC.children.first as? MemoViewController else { return }

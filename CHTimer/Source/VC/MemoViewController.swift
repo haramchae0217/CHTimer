@@ -32,7 +32,7 @@ class MemoViewController: UIViewController {
         memoTextVIew.delegate = self
         
         memoTextVIew.layer.cornerRadius = 10
-        memoTextVIew.layer.borderColor = UIColor.black.cgColor
+        memoTextVIew.layer.borderColor = UIColor.label.cgColor
         memoTextVIew.layer.borderWidth = 1.0
         
         self.navigationItem.title = "메모 추가하기"
@@ -53,7 +53,7 @@ class MemoViewController: UIViewController {
             if type == .add {
                 memoTextVIew.textColor = .systemGray
             } else {
-                memoTextVIew.textColor = .black
+                memoTextVIew.textColor = .label
                 memoTextVIew.text = addMemo.memo
             }
         }
@@ -62,7 +62,7 @@ class MemoViewController: UIViewController {
     
     @objc func saveButton() {
         if numberOfCharacters > 50 {
-            UIAlertController.showAlert(message: "50자 이내로 작성해주세요.", viewcontroller: self)
+            UIAlertController.showAlert(message: "50자 이내로 작성해주세요.", viewController: self)
         } else {
             if let row = row, let memo = addMemo {
                 Laps.laps[row] = Laps(lap: memo.lap, percent: memo.percent, memo: memoTextVIew.text!, count: numberOfCharacters)
@@ -80,7 +80,7 @@ extension MemoViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == .systemGray {
             textView.text = nil
-            textView.textColor = .black
+            textView.textColor = .label
         }
     }
     
@@ -101,8 +101,8 @@ extension MemoViewController: UITextViewDelegate {
             textView.textColor = .systemRed
             textLimitLabel.textColor = .systemRed
         } else {
-            textView.textColor = .black
-            textLimitLabel.textColor = .black
+            textView.textColor = .label
+            textLimitLabel.textColor = .label
         }
         numberOfCharacters = changedText.count
         return changedText.count <= 100000
